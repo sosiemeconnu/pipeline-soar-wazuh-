@@ -3,6 +3,14 @@
 ## 🎯 Objectif du Projet
 Ce projet démontre la mise en place d'une chaîne complète de réponse à incident (SOAR) automatisée. L'objectif est de détecter une activité réseau suspecte sur un agent Linux, d'enrichir l'alerte via de la Cyber Threat Intelligence (CTI), et d'exécuter une remédiation dynamique (blocage IP) sans intervention humaine, tout en notifiant l'équipe de sécurité.
 
+## 🛠️ Stack Technique
+* **Infrastructure & Déploiement :** Docker, Docker Compose
+* **SIEM / XDR :** Wazuh (Manager & Agent)
+* **SOAR :** Shuffle
+* **CTI :** API VirusTotal v3
+* **OS Cible :** Debian Linux
+* **Communication :** API REST, Webhooks, JSON
+  
 ## ⚙️ Architecture et Workflow
 
 Le flux de données est orchestré par **Shuffle** et suit ces 5 étapes critiques :
@@ -50,6 +58,7 @@ sequenceDiagram
 
 ## 🔬 Défis techniques et Résolutions
 Lors de la mise en place de ce pipeline, plusieurs subtilités liées à l'API Wazuh et à l'exécution de l'Active Response ont été surmontées :
+* **Réseau et Conteneurisation :** Déploiement complet de l'architecture via Docker et gestion des configurations réseau (notamment les réseaux host-only) pour assurer la bonne communication et le routage des alertes entre les conteneurs isolés et l'agent Debian.
 * **Formatage strict du Payload :** L'injection de la variable contenant l'IP depuis Shuffle vers Wazuh a nécessité une structuration JSON rigoureuse : `{"data": {"srcip": "<ip>"}}`.
 * **Conflit d'Arguments :** Pour utiliser le script natif `host-deny`, il a fallu s'assurer de ne passer aucun argument additionnel dans l'appel API afin d'éviter les erreurs d'exécution (`cannot unmarshal object`).
 * **Ciblage de l'Agent :** Ajout du paramètre `Agents_list` pour cibler spécifiquement l'ID de la machine compromise, évitant ainsi un broadcast inutile de l'Active Response à l'ensemble du parc.
