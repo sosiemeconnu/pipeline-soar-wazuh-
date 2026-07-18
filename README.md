@@ -48,4 +48,19 @@ sequenceDiagram
 ![Mise à jour du fichier hosts.deny](images/hosts-deny-result.png)
 > **Figure 5 :** Résultat de l'Active Response sur l'agent Debian : l'IP cible est bloquée dynamiquement au niveau du système.
 
+## 🔬 Défis techniques et Résolutions
+Lors de la mise en place de ce pipeline, plusieurs subtilités liées à l'API Wazuh et à l'exécution de l'Active Response ont été surmontées :
+* **Formatage strict du Payload :** L'injection de la variable contenant l'IP depuis Shuffle vers Wazuh a nécessité une structuration JSON rigoureuse : `{"data": {"srcip": "<ip>"}}`.
+* **Conflit d'Arguments :** Pour utiliser le script natif `host-deny`, il a fallu s'assurer de ne passer aucun argument additionnel dans l'appel API afin d'éviter les erreurs d'exécution (`cannot unmarshal object`).
+* **Ciblage de l'Agent :** Ajout du paramètre `Agents_list` pour cibler spécifiquement l'ID de la machine compromise, évitant ainsi un broadcast inutile de l'Active Response à l'ensemble du parc.
+
+---
+
+## 👨‍💻 À propos du projet et de l'auteur
+
+Ce laboratoire technique a été développé par **Max Dingao**, actuellement en Master 1 Cybersécurité et Système d'Information à l'INSA Hauts-de-France. 
+
+Il vient s'ajouter à mon portfolio technique, en complément de mon projet d'**Assistant RAG hybride et local pour SOC**. L'objectif de ces travaux est de maîtriser de bout en bout l'architecture défensive et l'automatisation. 
+
+Je suis activement à la recherche d'une **alternance (Master 2) en Cybersécurité ou DevOps pour la rentrée de septembre 2026**.
 
