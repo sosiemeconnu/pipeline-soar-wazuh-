@@ -29,6 +29,23 @@ sequenceDiagram
     VirusTotal-->>Shuffle: 5. Retour du score de menace
     Shuffle->>Wazuh_Manager: 6. Ordre de remédiation (Action: host-deny)
     Wazuh_Manager->>Agent_Debian: 7. Mise à jour automatique de /etc/hosts.deny
-    Shuffle->>Discord: 8. Envoi du rapport final d'intervention
+    Shuffle->>Discord: 8. Envoi du rapport final d'intervention 
+```
+## 📸 Démonstration en images
+
+![Dashboard Wazuh et Agent Debian](images/wazuh-dashboard.png)
+> **Figure 1 :** Interface du Manager Wazuh confirmant la connexion et la supervision de l'agent Debian cible (ID: 003).
+
+![Flux d'orchestration complet dans Shuffle](images/flux-shuffle.png)
+> **Figure 2 :** Flux d'orchestration global dans l'interface Shuffle, de la détection à la notification.
+
+![Score de menace VirusTotal](images/virustotal-cti.png)
+> **Figure 3 :** Enrichissement de l'alerte via l'API VirusTotal pour confirmer la malveillance de l'IP avant remédiation.
+
+![Notification Discord dynamique](images/webhook-discord.png)
+> **Figure 4 :** Succès de l'intégration du Webhook avec réception de l'alerte formatée sur le salon SOC.
+
+![Mise à jour du fichier hosts.deny](images/hosts-deny-result.png)
+> **Figure 5 :** Résultat de l'Active Response sur l'agent Debian : l'IP cible est bloquée dynamiquement au niveau du système.
 
 
